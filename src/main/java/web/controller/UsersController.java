@@ -34,12 +34,12 @@ public class UsersController {
     }
 
     @GetMapping("/new")
-    public String newUser(@ModelAttribute("user") User user) {
+    public String getNewUserCreationForm(@ModelAttribute("user") User user) {
         return "users/new";
     }
 
     @PostMapping
-    public String create(@ModelAttribute("user") @Valid User user,
+    public String saveNewUser(@ModelAttribute("user") @Valid User user,
                          BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
@@ -50,13 +50,13 @@ public class UsersController {
     }
 
     @GetMapping("/{id}/edit")
-    public String edit(Model model, @PathVariable("id") int id) {
+    public String getUserEditForm(Model model, @PathVariable("id") int id) {
         model.addAttribute("user", userService.getUser(id));
         return "users/edit";
     }
 
-    @PatchMapping("/{id}")
-    public String update(@ModelAttribute("user") @Valid User user, BindingResult bindingResult,
+    @PutMapping("/{id}")
+    public String updateUser(@ModelAttribute("user") @Valid User user, BindingResult bindingResult,
                          @PathVariable("id") int id) {
         if (bindingResult.hasErrors()) {
             return "users/edit";
@@ -66,7 +66,7 @@ public class UsersController {
     }
 
     @DeleteMapping("{id}")
-    public String delete(@PathVariable("id") int id) {
+    public String deleteUser(@PathVariable("id") int id) {
         userService.deleteUser(id);
         return "redirect:/users";
     }
